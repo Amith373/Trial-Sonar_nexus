@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        SCANNER_HOME = tool 'sonar'
+        SCANNER_HOME = tool 'Demo_Project'
     }
 
     stages {

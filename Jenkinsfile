@@ -1,35 +1,56 @@
 pipeline {
     agent any
+
     tools {
         jdk 'jdk17'
         maven 'maven3'
     }
+
     environment {
-        SCANNER_HOME=tool 'sonar'
+        SCANNER_HOME = tool 'sonar'
     }
+
     stages {
-        stage('git checkout') {
+
+        stage('Git Checkout') {
             steps {
-              git branch: 'main', url: 'https://github.com/Amith373/Trial-Sonar_nexus.git'
+                git branch: 'main',
+                    url: 'https://github.com/Amith373/Trial-Sonar_nexus.git'
             }
         }
-        stage('complie code') {
+
+        stage('Compile Code') {
             steps {
-              sh "mvc clean compile"
+                sh 'mvn clean compile'
             }
         }
-        stage('code test') {
+
+        stage('Code Test') {
             steps {
-              sh "mvc test"
+                sh 'mvn test'
             }
         }
-        stage('sonar analsus') {
+
+        stage('SonarQube Analysis') {
             steps {
-                 withSonarQubeEnv('sonar') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=sonar-qube-analsys \
-                    -Dsonar.java.binaries=. \
-                    -Dsonar.projectKey=sonar-qube-analsys '''
-             }
+                withSonarQubeEnv('sonar') {
+                    sh '''
+                    $SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectKey=sonar-qube-analysis \
+                    -Dsonar.projectName=sonar-qube-analysis \
+                    -Dsonar.java.binaries=target
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed. Please check logs.'
         }
     }
 }

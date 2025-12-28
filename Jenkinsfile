@@ -1,6 +1,16 @@
 pipeline {
     agent any
 
+    tools{
+        maven 'Maven3'
+        jdk 'JDK11'
+      }
+
+    environoment{
+        EC2_USER = "ubuntu"
+        EC2_HOST = "3.110.193.167"
+        JAR_NAME = "demo-0.0.1-SNAPSHOT.jar"
+
     stages {
         stage('checkout') {
             steps {
@@ -17,11 +27,14 @@ pipeline {
         }
     stage('deploy') {
             steps {
-                echo "Deploying Application"
+                echo "Deploying Application" 
                 sshagent(['ec2-ssh-key']) {
-                sh '''
-                   nohup java -jar demo-0.0.1-SNAPSHOT.jar &
-                   '''
+
+                    sh """
+                    scp target/${JAR_NAME} ${EC2_USER}@${EC2_HOST}:${APP_DIR}
+                    nohup java -jar ${JAR_NAME} &
+                    
+
             }
         }        
     }

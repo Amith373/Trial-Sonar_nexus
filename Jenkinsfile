@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+            EC2-USER = "UBUNTU"
+            EC2-HOST = "3.110.193.167"
+    
     stages {
         stage('checkout') {
             steps {
@@ -10,6 +14,7 @@ pipeline {
     stage('deploy') {
             steps {
                 echo "Deploying Application"
+                sshagent(['ec2-ssh-key']) {
                 sh '''
                    nohup java -jar demo-0.0.1-SNAPSHOT.jar &
                    '''

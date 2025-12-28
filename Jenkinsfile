@@ -7,7 +7,7 @@ pipeline {
                git branch: 'main', url: 'https://github.com/Amith373/Trial-Sonar_nexus.git'
             }
         }
-        stage('build') {
+    stage('build') {
             steps {
                 echo "Building Application"
                 sh '''
@@ -15,5 +15,7 @@ pipeline {
                    '''
             }
         }
+
+        
     }
 }

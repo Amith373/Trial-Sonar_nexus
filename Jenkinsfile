@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-            EC2-USER = "ubuntu"
-            EC2-HOST = "3.110.193.167"
-    }
     stages {
         stage('checkout') {
             steps {

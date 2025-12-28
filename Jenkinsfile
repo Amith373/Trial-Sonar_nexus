@@ -11,7 +11,7 @@ pipeline {
             steps {
                 echo "Building Application"
                 sh '''
-                   mvn clean package
+                   mvn clean install
                    '''
             }
         }

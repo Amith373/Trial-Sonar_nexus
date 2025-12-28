@@ -19,7 +19,6 @@ pipeline {
             steps {
                 echo "Deploying Application"
                 sshagent(['ec2-ssh-key']) {
-                    scp-
                 sh '''
                    nohup java -jar demo-0.0.1-SNAPSHOT.jar &
                    '''
